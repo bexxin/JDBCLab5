@@ -43,17 +43,19 @@ public class GameRecords extends Application {
         //Buttons
         Button addGame = new Button("Add Game");
         Button addPlayer = new Button("Add Player");
+        Button enterGameStats = new Button("Enter Game Scores");
         Button viewPlayer = new Button("View Player Stats");
         Button editPlayer = new Button("Update Player");
 
         //Button actions
         addGame.setOnAction(actionEvent -> AddGameController.showAddGameForm(gamesListBox));
         addPlayer.setOnAction(actionEvent -> AddPlayerController.showAddPlayerForm(playersListBox));
+        enterGameStats.setOnAction(actionEvent -> EnterGameStatsController.showGameStatsForm(playersListBox));
         editPlayer.setOnAction(actionEvent -> UpdatePlayerController.showUpdatedPlayerForm(playersListBox));
 
         //VBox for PlayerButtons
         VBox playerButtons = new VBox();
-        playerButtons.getChildren().addAll(viewPlayer,editPlayer);
+        playerButtons.getChildren().addAll(enterGameStats,viewPlayer,editPlayer);
 
         //Add elements to pane
         pane.add(appTitle,1,0,2,1);

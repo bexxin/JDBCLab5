@@ -200,7 +200,63 @@ public class DatabaseConnection {
         }
 
     }
+    //Get game id
+    public static int getGameId(String selectedGame) {
+        int gameIdNumber = 0;
+        try{
+            //Establish connection
+            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            //Create statement
+            Statement stGetGameId = myConnection.createStatement();
+            //SQL statement
+            String getGameIdQuery = "SELECT game_id FROM game WHERE game_title = '"+ selectedGame +"'";
+            //Execute query
+            ResultSet rsGameId = stGetGameId.executeQuery(getGameIdQuery);
+            //store result in gameIdNumber
+            if(rsGameId.next()){
+                gameIdNumber=rsGameId.getInt("game_id");
+            }
+            rsGameId.close();
+            stGetGameId.close();
+            myConnection.close();
 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return gameIdNumber;
+    }
+    //Get player id
+    public static int getPlayerID(String firstNameFromList, String lastNameFromList) {
+        int playerIdNumber = 0;
+        try{
+            //Establish connection
+            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            //Create statement
+            Statement stGetPlayerId = myConnection.createStatement();
+            //SQL statement
+            String getPlayerIdQuery = "SELECT player_id FROM Player WHERE first_name = '"+ firstNameFromList +"' AND last_name = '" +lastNameFromList+ "'";
+            //Execute query
+            ResultSet rsPlayerId = stGetPlayerId.executeQuery(getPlayerIdQuery);
+            //store result in gameIdNumber
+            if(rsPlayerId.next()){
+                playerIdNumber=rsPlayerId.getInt("player_id");
+            }
+            rsPlayerId.close();
+            stGetPlayerId.close();
+            myConnection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return playerIdNumber;
+    }
+
+
+
+
+    //Insert new playerAndGame record
 
 
 }
