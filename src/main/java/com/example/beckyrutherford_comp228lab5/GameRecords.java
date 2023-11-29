@@ -50,6 +50,7 @@ public class GameRecords extends Application {
         //Button actions
         addGame.setOnAction(actionEvent -> AddGameController.showAddGameForm(gamesListBox));
         addPlayer.setOnAction(actionEvent -> AddPlayerController.showAddPlayerForm(playersListBox));
+        viewPlayer.setOnAction(actionEvent -> ViewPlayerStatsController.showPlayerStatsReport(playersListBox));
         enterGameStats.setOnAction(actionEvent -> EnterGameStatsController.showGameStatsForm(playersListBox));
         editPlayer.setOnAction(actionEvent -> UpdatePlayerController.showUpdatedPlayerForm(playersListBox));
 
