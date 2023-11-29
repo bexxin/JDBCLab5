@@ -253,6 +253,7 @@ public class DatabaseConnection {
 
         return playerIdNumber;
     }
+    //Insert playergamerecord
     public static void addPlayerGameRecord(int gameId, int playerId, LocalDate datePlayed, int gameScore){
 
         try {//Establish Connection
@@ -273,6 +274,7 @@ public class DatabaseConnection {
         }
 
     }
+    //TODO method to get player stats and return to ViewPlayerStatsController
 
 }
 

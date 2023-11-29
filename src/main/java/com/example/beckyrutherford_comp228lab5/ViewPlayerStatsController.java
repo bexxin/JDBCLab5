@@ -36,6 +36,10 @@ public class ViewPlayerStatsController {
         TableColumn thirdColumn = new TableColumn("Score");
 
         reportTable.getColumns().addAll(firstColumn,secondColumn,thirdColumn);
+
+        //TODO call method from database connection then populate table with appropriate data
+
+
         //OK Button logic
         Button okButton = new Button("OK");
         okButton.setOnAction(actionEvent -> {
