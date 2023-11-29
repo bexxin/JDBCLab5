@@ -49,13 +49,15 @@ public class EnterGameStatsController {
 
         //Submit button logic
         submitGameButton.setOnAction(actionEvent -> {
-            //TODO logic to get player id, game id, and then submit record to database
+
             //Get game_id for selected game
             String selectedGame = gamesList.getSelectionModel().getSelectedItem().toString();
-            int gameID = DatabaseConnection.getGameId(selectedGame);
+            int gameId = DatabaseConnection.getGameId(selectedGame);
             //Get player_id for selected player
-            int playerID = DatabaseConnection.getPlayerID(firstNameFromList,lastNameFromList);
-
+            int playerId = DatabaseConnection.getPlayerID(firstNameFromList,lastNameFromList);
+            LocalDate datePlayed = datePicker.getValue();
+            int gameScore = Integer.parseInt(scoreTextField.getText());
+            DatabaseConnection.addPlayerGameRecord(gameId,playerId,datePlayed,gameScore);
 
 
             //Display confirmation

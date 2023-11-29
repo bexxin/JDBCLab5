@@ -4,6 +4,7 @@ package com.example.beckyrutherford_comp228lab5;
 import javafx.scene.control.ListView;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +13,11 @@ import java.util.Map;
 public class DatabaseConnection {
     private static Connection connection;
     //CONNECT TO DATABASE
-    public static Connection connect(String user, String password) {
+    public static Connection connect() {
 
         try {
             Class.forName("oracle.jdbc.OracleDriver");
-            connection = DriverManager.getConnection("jdbc:oracle:thin:@199.212.26.208:1521:SQLD", user, password);
+            connection = DriverManager.getConnection("jdbc:oracle:thin:@199.212.26.208:1521:SQLD", "COMP228_F23_dah_27","password");
             System.out.println("Connection established successfully!");
 
         } catch (ClassNotFoundException e) {
@@ -36,7 +37,7 @@ public class DatabaseConnection {
         List<String> gamesList;
         try{
          //Establish Connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27","password");
+            Connection myConnection = DatabaseConnection.connect();
           //Create statement
           Statement stGames = myConnection.createStatement();
           //Build SQL statement
@@ -62,7 +63,7 @@ public class DatabaseConnection {
          List<String> gamesList = new ArrayList<>();
         try {
             //Establish Connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27","password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stGames = myConnection.createStatement();
             //get results from Games table
@@ -98,7 +99,7 @@ public class DatabaseConnection {
     public static List<String> addPlayerToList(String firstNameData, String lastNameData, String addressData, String postalCodeData, String provinceData, String phoneNumberData) {
         List<String> updatedPlayersList = new ArrayList<>();
         try {//Establish Connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stPlayers = myConnection.createStatement();
             //Build SQL statement.
@@ -119,7 +120,7 @@ public class DatabaseConnection {
         List<String> playersList = new ArrayList<>();
         try {
             //Establish Connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27","password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stPlayers = myConnection.createStatement();
             //get results from Games table
@@ -156,7 +157,7 @@ public class DatabaseConnection {
         Map<String, String> playerDemoData = new HashMap<>();
         try{
             //Establish Connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27","password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stPlayersDemoData = myConnection.createStatement();
             //get results from Games table
@@ -183,7 +184,7 @@ public class DatabaseConnection {
     public static void updatePlayerDemo(String firstNameData, String lastNameData, String addressData, String postalCodeData, String provinceData, String phoneNumberData){
         try{
             //Establish connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stUpdatePlayerDemo = myConnection.createStatement();
             //Build SQL statement for updating
@@ -205,7 +206,7 @@ public class DatabaseConnection {
         int gameIdNumber = 0;
         try{
             //Establish connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stGetGameId = myConnection.createStatement();
             //SQL statement
@@ -231,7 +232,7 @@ public class DatabaseConnection {
         int playerIdNumber = 0;
         try{
             //Establish connection
-            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            Connection myConnection = DatabaseConnection.connect();
             //Create statement
             Statement stGetPlayerId = myConnection.createStatement();
             //SQL statement
@@ -252,12 +253,26 @@ public class DatabaseConnection {
 
         return playerIdNumber;
     }
+    public static void addPlayerGameRecord(int gameId, int playerId, LocalDate datePlayed, int gameScore){
 
+        try {//Establish Connection
+            Connection myConnection = DatabaseConnection.connect();
+            //Create statement
+            Statement stPlayerGames = myConnection.createStatement();
+            //Build SQL statement.
+            //convert date to SQL format
+            java.sql.Date sqlDate = java.sql.Date.valueOf(datePlayed);
+            String insertPlayerGameRecord = "INSERT INTO PlayerAndGame (game_id, player_id, playing_date, score) VALUES ('"+ gameId +"', '"+ playerId +"', '"+ sqlDate +"', '"+gameScore+"')";
+            stPlayerGames.executeUpdate(insertPlayerGameRecord);
+            //Close st and connection
+            stPlayerGames.close();
+            myConnection.close();
 
+        }catch(SQLException e){
+            throw new RuntimeException(e);
+        }
 
-
-    //Insert new playerAndGame record
-
+    }
 
 }
 
