@@ -3,15 +3,16 @@ package com.example.beckyrutherford_comp228lab5;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.util.List;
 
 public class AddPlayerController {
 
-
-    public static void showAddPlayerForm() {
+    public static void showAddPlayerForm(ListView<String> playersListBox) {
         //Create new stage for Add Game Form
         Stage addPlayerStage = new Stage();
         addPlayerStage.initModality(Modality.APPLICATION_MODAL);
@@ -42,7 +43,10 @@ public class AddPlayerController {
             String provinceData = province.getText();
             String phoneNumberData = phoneNumber.getText();
 
-            //Add logic here to insert new game into the database
+            List<String> updatedPlayersList = DatabaseConnection.addPlayerToList(firstNameData,lastNameData,addressData,postalCodeData,provinceData,phoneNumberData);
+            playersListBox.getItems().clear();
+            playersListBox.getItems().addAll(updatedPlayersList);
+
 
             addPlayerStage.close();
         });

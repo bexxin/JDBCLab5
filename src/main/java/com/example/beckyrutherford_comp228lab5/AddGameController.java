@@ -12,8 +12,6 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class AddGameController {
-
-
     public static void showAddGameForm(ListView<String> gamesListBox) {
         //Create new stage for Add Game Form
         Stage addGameStage = new Stage();

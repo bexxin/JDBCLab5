@@ -36,6 +36,10 @@ public class GameRecords extends Application {
         Label listOfPlayers = new Label("Players");
         ListView<String> playersListBox = new ListView<>();
 
+        //Populate the playersListBox from database
+        List<String> playersListData = DatabaseConnection.getPlayersList();
+        playersListBox.getItems().addAll(playersListData);
+
         //Buttons
         Button addGame = new Button("Add Game");
         Button addPlayer = new Button("Add Player");
@@ -44,7 +48,7 @@ public class GameRecords extends Application {
 
         //Button actions
         addGame.setOnAction(actionEvent -> AddGameController.showAddGameForm(gamesListBox));
-        addPlayer.setOnAction(actionEvent -> AddPlayerController.showAddPlayerForm());
+        addPlayer.setOnAction(actionEvent -> AddPlayerController.showAddPlayerForm(playersListBox));
 
         //VBox for PlayerButtons
         VBox playerButtons = new VBox();
