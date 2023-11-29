@@ -5,7 +5,9 @@ import javafx.scene.control.ListView;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseConnection {
     private static Connection connection;
@@ -99,7 +101,7 @@ public class DatabaseConnection {
             Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
             //Create statement
             Statement stPlayers = myConnection.createStatement();
-            //Build SQL statement...FINISH CODE HERE
+            //Build SQL statement.
             String insertPlayer = "INSERT INTO Player (first_name, last_name, address, postal_code, province, phone_number) VALUES ('"+ firstNameData +"', '"+ lastNameData +"', '"+ addressData +"', '"+ postalCodeData +"', '"+ provinceData+ "', '"+ phoneNumberData +"') ";
             stPlayers.executeUpdate(insertPlayer);
             //Close st and connection
@@ -149,7 +151,57 @@ public class DatabaseConnection {
 
         return playersList;
     }
-    //UPDATE Player-Update player entry
+
+    public static Map<String, String> getPlayerDemoData(String firstName, String lastName) {
+        Map<String, String> playerDemoData = new HashMap<>();
+        try{
+            //Establish Connection
+            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27","password");
+            //Create statement
+            Statement stPlayersDemoData = myConnection.createStatement();
+            //get results from Games table
+            ResultSet playersDemoDataResultSet = stPlayersDemoData.executeQuery("SELECT * FROM Player WHERE first_name= '"+ firstName+"' AND last_name= '"+ lastName +"'");
+            //Store results of current player demo data in playerDemoData
+            while(playersDemoDataResultSet.next()){
+                playerDemoData.put("Address",playersDemoDataResultSet.getString("address"));
+                playerDemoData.put("Postal Code",playersDemoDataResultSet.getString("postal_code"));
+                playerDemoData.put("Province", playersDemoDataResultSet.getString("province"));
+                playerDemoData.put("Phone Number", playersDemoDataResultSet.getString("phone_number"));
+            }
+            playersDemoDataResultSet.close();
+            stPlayersDemoData.close();
+            myConnection.close();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return playerDemoData;
+    }
+    //Method to update player demographics
+    public static void updatePlayerDemo(String firstNameData, String lastNameData, String addressData, String postalCodeData, String provinceData, String phoneNumberData){
+        try{
+            //Establish connection
+            Connection myConnection = DatabaseConnection.connect("COMP228_F23_dah_27", "password");
+            //Create statement
+            Statement stUpdatePlayerDemo = myConnection.createStatement();
+            //Build SQL statement for updating
+            String updatePlayerSQLQuery="UPDATE Player SET address = '" + addressData + "',postal_code = '" + postalCodeData + "', province = '" + provinceData + "', phone_number = '" + phoneNumberData + "' WHERE first_name = '"
++firstNameData + "' AND last_name = '" + lastNameData +"'";
+            //execute statement
+            stUpdatePlayerDemo.executeUpdate(updatePlayerSQLQuery);
+            stUpdatePlayerDemo.close();
+            myConnection.close();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 
 }
 

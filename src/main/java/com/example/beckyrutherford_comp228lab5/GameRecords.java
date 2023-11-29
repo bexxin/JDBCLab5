@@ -49,6 +49,7 @@ public class GameRecords extends Application {
         //Button actions
         addGame.setOnAction(actionEvent -> AddGameController.showAddGameForm(gamesListBox));
         addPlayer.setOnAction(actionEvent -> AddPlayerController.showAddPlayerForm(playersListBox));
+        editPlayer.setOnAction(actionEvent -> UpdatePlayerController.showUpdatedPlayerForm(playersListBox));
 
         //VBox for PlayerButtons
         VBox playerButtons = new VBox();

@@ -16,7 +16,7 @@ public class AddPlayerController {
         //Create new stage for Add Game Form
         Stage addPlayerStage = new Stage();
         addPlayerStage.initModality(Modality.APPLICATION_MODAL);
-        addPlayerStage.setTitle("Add New Game");
+        addPlayerStage.setTitle("Add New Player");
 
         //Form components
         Label addPlayerLabel= new Label("Player Information");
@@ -36,6 +36,7 @@ public class AddPlayerController {
 
         //AddButton Logic
         addButton.setOnAction(actionEvent -> {
+            //get data from text fields
             String firstNameData = firstName.getText();
             String lastNameData = lastName.getText();
             String addressData = address.getText();
