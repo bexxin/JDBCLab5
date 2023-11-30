@@ -1,10 +1,18 @@
 package com.example.beckyrutherford_comp228lab5;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 public class ViewPlayerStatsController {
     public static void showPlayerStatsReport(ListView<String> playersListBox) {
@@ -28,16 +36,24 @@ public class ViewPlayerStatsController {
 
         //Report Components
         Label reportLabel = new Label(firstNameFromList+"'s Game Stats");
-        TableView<String> reportTable = new TableView<>();
+        TableView<PlayerGameRecord> reportTable = new TableView<>();
 
         //Columns
-        TableColumn firstColumn = new TableColumn("Date");
-        TableColumn secondColumn = new TableColumn("Game");
-        TableColumn thirdColumn = new TableColumn("Score");
+        TableColumn<PlayerGameRecord, String> firstColumn = new TableColumn<>("Date");
+        TableColumn<PlayerGameRecord,String> secondColumn = new TableColumn<>("Game");
+        TableColumn<PlayerGameRecord,String> thirdColumn = new TableColumn<>("Score");
 
         reportTable.getColumns().addAll(firstColumn,secondColumn,thirdColumn);
 
-        //TODO call method from database connection then populate table with appropriate data
+        //get GameAndPlayer records from database
+        ObservableList<PlayerGameRecord> playersRecords = DatabaseConnection.getPlayerGameRecord(firstNameFromList,lastNameFromList);
+        //Create cell value factory for each column
+        firstColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        secondColumn.setCellValueFactory(new PropertyValueFactory<>("game"));
+        thirdColumn.setCellValueFactory(new PropertyValueFactory<>("score"));
+
+
+        reportTable.setItems(playersRecords);
 
 
         //OK Button logic

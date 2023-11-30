@@ -1,6 +1,8 @@
 package com.example.beckyrutherford_comp228lab5;
 
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 
 import java.sql.*;
@@ -274,7 +276,55 @@ public class DatabaseConnection {
         }
 
     }
-    //TODO method to get player stats and return to ViewPlayerStatsController
+    public static ObservableList<PlayerGameRecord> getPlayerGameRecord(String firstName, String lastName){
+        //Get player_id of selected player
+        int playerID = getPlayerID(firstName, lastName);
+        //List of hashmaps to store records
+        ObservableList<PlayerGameRecord> playerAndGameRecordsList = FXCollections.observableArrayList();
+        try{
+            //Establish Connection
+            Connection myConnection = DatabaseConnection.connect();
+            //Create statement
+            Statement stPlayerGameRecords = myConnection.createStatement();
+            //Build SQL statement to get PlayerAndGame Record
+            String getPlayerGameRecordSQL = "SELECT game_id, playing_date, score FROM PlayerAndGame WHERE player_id= '"+playerID+"'";
+            //Execute query
+            ResultSet rsPlayerGameRecord = stPlayerGameRecords.executeQuery(getPlayerGameRecordSQL);
+
+            //Get game_title for each gameId in result set
+            while (rsPlayerGameRecord.next()){
+                //Data from result set
+                int gameId = rsPlayerGameRecord.getInt("game_id");
+                Date gameDate = rsPlayerGameRecord.getDate("playing_date");
+                int gameScore = rsPlayerGameRecord.getInt("score");
+                //Convert int & date to string
+                String gameDateString = String.valueOf(gameDate);
+                String gameScoreString= String.valueOf(gameScore);
+
+                //Create statement
+                Statement stGameTitle = myConnection.createStatement();
+                //Build SQL statement to get game_title
+                String getGameTitleSQL = "Select game_title FROM game WHERE game_id='"+ gameId+"'";
+                //Execute query
+                ResultSet rsGameTitle = stGameTitle.executeQuery(getGameTitleSQL);
+                while(rsGameTitle.next()){
+                    String gameTitle = rsGameTitle.getString("game_title");
+                    //PlayerGameRecord object
+                    PlayerGameRecord myPlayerGameRecord = new PlayerGameRecord(gameDateString,gameTitle,gameScoreString);
+                    //Add PlayerGameRecord to observablelist
+                    playerAndGameRecordsList.add(myPlayerGameRecord);
+                }
+
+            }
+            rsPlayerGameRecord.close();
+            stPlayerGameRecords.close();
+            myConnection.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return playerAndGameRecordsList;
+    }
 
 }
 
