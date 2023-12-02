@@ -2,12 +2,14 @@ package com.example.beckyrutherford_comp228lab5;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
@@ -24,14 +26,16 @@ public class GameRecords extends Application {
 
         //Initial gridpane
         GridPane pane = new GridPane();
-        pane.setHgap(10);
+        pane.setHgap(20);
         pane.setVgap(10);
+        pane.setPadding(new Insets(20,20,20,20));
 
         //Title Background
         Polygon titleTriangle = new Polygon (10,10,200,0,190,150);
         titleTriangle.setTranslateY(-20);
+        titleTriangle.setTranslateX(15);
         titleTriangle.setRotate(150);
-        titleTriangle.setScaleX(1.4);
+        titleTriangle.setScaleX(1.6);
         titleTriangle.setStyle("-fx-background-color: #800000; -fx-effect: dropshadow(three-pass-box, #00BFFF, 10, 0, 0, 0); ");
 
         //App Title
@@ -62,9 +66,11 @@ public class GameRecords extends Application {
         //Populate the playersListBox from database
         List<String> playersListData = DatabaseConnection.getPlayersList();
         playersListBox.getItems().addAll(playersListData);
+
         //ListBoxStyling
-        gamesListBox.setStyle("-fx-font-size:16; -fx-control-inner-background: #0d0000;-fx-effect: dropshadow(three-pass-box, #00BFFF, 10, 0, 0, 0);");
-        playersListBox.setStyle("-fx-font-size:16;-fx-control-inner-background: #0d0000;-fx-effect: dropshadow(three-pass-box, #00BFFF, 10, 0, 0, 0);");
+        gamesListBox.setStyle(" -fx-font-size:16; -fx-control-inner-background: #0d0000;-fx-effect: dropshadow(three-pass-box, #00BFFF, 10, 0, 0, 0);");
+        playersListBox.setStyle(" -fx-font-size:16;-fx-control-inner-background: #0d0000;-fx-effect: dropshadow(three-pass-box, #00BFFF, 10, 0, 0, 0);");
+
 
         //Buttons
         Button addGame = new Button("Add Game");
@@ -104,6 +110,7 @@ public class GameRecords extends Application {
         GridPane.setHalignment(addPlayer, HPos.CENTER);
         pane.add(playersListBox, 3,3);
         pane.add(playerButtons,2,3,1,2);
+
 
         //Add pane to scene,stage
         Scene scene = new Scene(pane);
